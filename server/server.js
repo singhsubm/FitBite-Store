@@ -38,6 +38,10 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 app.use('/api/owner', ownerRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
