@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Admin aur Checkout page google search me nahi dikhne chahiye
+Disallow: /admin
+Disallow: /checkout
+Disallow: /profile
+
+# Sitemap ka pata bata do (Jab site live ho jaye tab domain change karlena)
+Sitemap: https://fitbite.com/sitemap.xml
