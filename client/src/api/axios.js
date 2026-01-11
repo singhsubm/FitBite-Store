@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api', // Apna backend URL check karlena
+  baseURL: import.meta.env.VITE_API_URL || 'https://fitbite-api-27qz.onrender.com/api', // Apna backend URL check karlena
 });
 
 // === REQUEST INTERCEPTOR (Ye har request ke saath token bhejege) ===
