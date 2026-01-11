@@ -20,8 +20,17 @@ app.use(express.json());
 app.use(cors());
 
 app.use(cors({
-    origin: process.env.CLIENT_URL || "https://fitbite-store.vercel.app", 
-    credentials: true
+  origin: function (origin, callback) {
+    if (
+      !origin ||
+      origin === "https://fitbite-store.vercel.app"
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 }));
 
 // Basic Route
