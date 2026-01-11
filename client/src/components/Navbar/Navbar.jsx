@@ -46,9 +46,9 @@ const Navbar = () => {
     <>
       <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 md:px-10 py-4 border-b border-white/20 backdrop-blur-lg bg-white/10 shadow-sm">
         {/* 1. Logo */}
-        <div className="text-xl md:text-2xl font-bold tracking-tighter text-black cursor-pointer z-50">
+        <Link to="/" className="text-xl md:text-2xl font-bold tracking-tighter text-black cursor-pointer z-50">
           FIT BITE.<span className="text-yellow-600">CO</span>
-        </div>
+        </Link>
 
         {/* 2. Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-16">
