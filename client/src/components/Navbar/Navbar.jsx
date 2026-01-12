@@ -57,38 +57,38 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center gap-16">
           {navLinks.map((item, index) => (
             <NavLink
-      key={index}
-      to={item.link}
-      end={item.link === "/" } // Home exact rahe, baaki prefix
-    >
-      {({ isActive }) => (
-        <div
-          className={`group relative text-sm font-medium cursor-pointer transition-colors duration-300
+              key={index}
+              to={item.link}
+              end={item.link === "/"} // Home exact rahe, baaki prefix
+            >
+              {({ isActive }) => (
+                <div
+                  className={`group relative text-sm font-medium cursor-pointer transition-colors duration-300
           ${isActive ? "text-yellow-700" : "text-black hover:text-yellow-700"}`}
-        >
-          {/* Left Icon */}
-          <span
-            className={`absolute -left-6 top-1/2 -translate-y-1/2 text-lg transition-all duration-300
+                >
+                  {/* Left Icon */}
+                  <span
+                    className={`absolute -left-6 top-1/2 -translate-y-1/2 text-lg transition-all duration-300
             ${
               isActive
-                ? "opacity-100 translate-x-0 text-yellow-700"
+                ? "opacity-0 translate-x-0 text-yellow-700"
                 : "opacity-0 -translate-x-2 text-yellow-700 group-hover:opacity-100 group-hover:translate-x-0"
             }`}
-          >
-            <i className={item.icon}></i>
-          </span>
+                  >
+                    <i className={item.icon}></i>
+                  </span>
 
-          {/* Text */}
-          <span>{item.name}</span>
+                  {/* Text */}
+                  <span>{item.name}</span>
 
-          {/* Underline */}
-          <span
-            className={`absolute -bottom-1 left-0 h-[2px] bg-yellow-700 transition-all duration-300
+                  {/* Underline */}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-[2px] bg-yellow-700 transition-all duration-300
             ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}
-          ></span>
-        </div>
-      )}
-    </NavLink>
+                  ></span>
+                </div>
+              )}
+            </NavLink>
           ))}
         </div>
 
@@ -250,25 +250,29 @@ const Navbar = () => {
       >
         {navLinks.map((item, index) => (
           <NavLink
-    key={index}
-    to={item.link}
-    end={item.link === "/"}
-    onClick={toggleMenu}
-  >
-    {({ isActive }) => (
-      <div
-        className={`text-2xl font-semibold flex items-center gap-3 transition-all
-        ${isActive ? "text-yellow-700 scale-105" : "text-gray-800 hover:text-yellow-700"}`}
-      >
-        <i
-          className={`${item.icon} ${
-            isActive ? "text-yellow-600" : "text-yellow-600"
-          }`}
-        ></i>
-        {item.name}
-      </div>
-    )}
-  </NavLink>
+            key={index}
+            to={item.link}
+            end={item.link === "/"}
+            onClick={toggleMenu}
+          >
+            {({ isActive }) => (
+              <div
+                className={`text-2xl font-semibold flex items-center gap-3 transition-all
+        ${
+          isActive
+            ? "text-yellow-700 scale-105"
+            : "text-gray-800 hover:text-yellow-700"
+        }`}
+              >
+                <i
+                  className={`${item.icon} ${
+                    isActive ? "text-yellow-600" : "text-yellow-600"
+                  }`}
+                ></i>
+                {item.name}
+              </div>
+            )}
+          </NavLink>
         ))}
         <Link
           to="/contact"
