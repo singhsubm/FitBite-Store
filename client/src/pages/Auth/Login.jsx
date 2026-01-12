@@ -8,6 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { showToast } = useToast();
@@ -69,14 +70,26 @@ const Login = () => {
             <label className="text-xs font-bold uppercase tracking-widest text-[#4a3b2a]">
               Password
             </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full mt-2 p-4 bg-[#fdfbf7] rounded-xl outline-none focus:border focus:border-[#d4a017] transition-all border border-transparent"
-              placeholder="••••••••"
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full mt-2 p-4 pr-12 bg-[#fdfbf7] rounded-xl outline-none focus:border focus:border-[#d4a017] transition-all border border-transparent"
+                placeholder="••••••••"
+                required
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#4a3b2a]"
+              >
+                <i
+                  className={showPassword ? "ri-eye-off-line" : "ri-eye-line"}
+                />
+              </button>
+            </div>
             <div className="text-right mb-4">
               <Link
                 to="/forgot-password"
