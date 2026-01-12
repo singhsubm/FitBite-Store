@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "remixicon/fonts/remixicon.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import { useToast } from "../../context/ToastContext"; 
+import { useToast } from "../../context/ToastContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,21 +23,21 @@ const Navbar = () => {
   ];
 
   const confirmLogout = () => {
-    localStorage.removeItem('userInfo');
+    localStorage.removeItem("userInfo");
     setShowLogoutModal(false); // Modal band karo
-    navigate('/login');
+    navigate("/login");
     window.location.reload();
   };
 
   // LocalStorage se check karo user hai ya nahi
   const handleLogoutClick = () => {
-     setIsDropdownOpen(false); // Dropdown band karo
-     
-     showConfirm("Are you sure you want to logout?", () => {
-        // Ye tab chalega jab user "Yes" dabayega
-        localStorage.removeItem('userInfo');
-        window.location.href = '/login'; 
-     });
+    setIsDropdownOpen(false); // Dropdown band karo
+
+    showConfirm("Are you sure you want to logout?", () => {
+      // Ye tab chalega jab user "Yes" dabayega
+      localStorage.removeItem("userInfo");
+      window.location.href = "/login";
+    });
   };
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -46,26 +46,49 @@ const Navbar = () => {
     <>
       <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 md:px-10 py-4 border-b border-white/20 backdrop-blur-lg bg-white/10 shadow-sm">
         {/* 1. Logo */}
-        <Link to="/" className="text-xl md:text-2xl font-bold tracking-tighter text-black cursor-pointer z-50">
+        <Link
+          to="/"
+          className="text-xl md:text-2xl font-bold tracking-tighter text-black cursor-pointer z-50"
+        >
           FIT BITE.<span className="text-yellow-600">CO</span>
         </Link>
 
         {/* 2. Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-16">
           {navLinks.map((item, index) => (
-            <Link
-              to={item.link}
-              key={index}
-              className="group relative text-sm font-medium text-black cursor-pointer"
-            >
-              <span className="absolute -left-6 top-1/2 -translate-y-1/2 text-lg text-yellow-700 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-                <i className={item.icon}></i>
-              </span>
-              <span className="transition-colors duration-300 group-hover:text-yellow-700">
-                {item.name}
-              </span>
-              <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-yellow-700 transition-all duration-300 group-hover:w-full"></span>
-            </Link>
+            <NavLink
+      key={index}
+      to={item.link}
+      end={item.link === "/" } // Home exact rahe, baaki prefix
+    >
+      {({ isActive }) => (
+        <div
+          className={`group relative text-sm font-medium cursor-pointer transition-colors duration-300
+          ${isActive ? "text-yellow-700" : "text-black hover:text-yellow-700"}`}
+        >
+          {/* Left Icon */}
+          <span
+            className={`absolute -left-6 top-1/2 -translate-y-1/2 text-lg transition-all duration-300
+            ${
+              isActive
+                ? "opacity-100 translate-x-0 text-yellow-700"
+                : "opacity-0 -translate-x-2 text-yellow-700 group-hover:opacity-100 group-hover:translate-x-0"
+            }`}
+          >
+            <i className={item.icon}></i>
+          </span>
+
+          {/* Text */}
+          <span>{item.name}</span>
+
+          {/* Underline */}
+          <span
+            className={`absolute -bottom-1 left-0 h-[2px] bg-yellow-700 transition-all duration-300
+            ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}
+          ></span>
+        </div>
+      )}
+    </NavLink>
           ))}
         </div>
 
@@ -146,7 +169,10 @@ const Navbar = () => {
           )}
 
           {/* --- NEW ANIMATED BUTTON STARTS HERE --- */}
-          <Link to="/contact" className="group hidden lg:flex px-5 py-2.5 bg-black text-white text-xs font-semibold rounded-full hover:bg-gray-800 transition-all active:scale-95 items-center gap-2">
+          <Link
+            to="/contact"
+            className="group hidden lg:flex px-5 py-2.5 bg-black text-white text-xs font-semibold rounded-full hover:bg-gray-800 transition-all active:scale-95 items-center gap-2"
+          >
             {/* Left Arrow (Initially Hidden) */}
             <div className="w-0 overflow-hidden opacity-0 group-hover:w-4 group-hover:opacity-100 transition-all duration-300 ease-in-out">
               <i className="ri-arrow-right-line"></i>
@@ -174,46 +200,44 @@ const Navbar = () => {
       {/* === CUSTOM LOGOUT MODAL === */}
       {showLogoutModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          
           {/* Overlay (Blur Background) */}
-          <div 
+          <div
             onClick={() => setShowLogoutModal(false)}
             className="absolute inset-0 bg-[#4a3b2a]/40 backdrop-blur-sm transition-opacity"
           ></div>
 
           {/* Modal Box */}
           <div className="bg-white rounded-[30px] p-8 max-w-sm w-full shadow-2xl relative z-10 text-center border border-[#4a3b2a]/10 transform transition-all scale-100">
-             
-             {/* Icon */}
-             <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
-                <i className="ri-logout-circle-r-line"></i>
-             </div>
+            {/* Icon */}
+            <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+              <i className="ri-logout-circle-r-line"></i>
+            </div>
 
-             <h3 className="text-2xl font-playfair font-bold text-[#4a3b2a] mb-2">
-                Signing Out?
-             </h3>
-             <p className="text-stone-500 text-sm mb-8">
-                Are you sure you want to end your session? Your cart items will be saved.
-             </p>
+            <h3 className="text-2xl font-playfair font-bold text-[#4a3b2a] mb-2">
+              Signing Out?
+            </h3>
+            <p className="text-stone-500 text-sm mb-8">
+              Are you sure you want to end your session? Your cart items will be
+              saved.
+            </p>
 
-             <div className="flex gap-4">
-                {/* No / Cancel Button */}
-                <button 
-                  onClick={() => setShowLogoutModal(false)}
-                  className="flex-1 py-3 rounded-full border border-[#4a3b2a]/20 text-[#4a3b2a] font-bold text-xs uppercase tracking-widest hover:bg-stone-50 transition-colors"
-                >
-                  Cancel
-                </button>
+            <div className="flex gap-4">
+              {/* No / Cancel Button */}
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="flex-1 py-3 rounded-full border border-[#4a3b2a]/20 text-[#4a3b2a] font-bold text-xs uppercase tracking-widest hover:bg-stone-50 transition-colors"
+              >
+                Cancel
+              </button>
 
-                {/* Yes / Logout Button */}
-                <button 
-                  onClick={confirmLogout}
-                  className="flex-1 py-3 rounded-full bg-red-500 text-white font-bold text-xs uppercase tracking-widest hover:bg-red-600 shadow-lg transition-colors"
-                >
-                  Yes, Logout
-                </button>
-             </div>
-
+              {/* Yes / Logout Button */}
+              <button
+                onClick={confirmLogout}
+                className="flex-1 py-3 rounded-full bg-red-500 text-white font-bold text-xs uppercase tracking-widest hover:bg-red-600 shadow-lg transition-colors"
+              >
+                Yes, Logout
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -225,18 +249,32 @@ const Navbar = () => {
         }`}
       >
         {navLinks.map((item, index) => (
-          <Link
-            key={index}
-            to={item.link}
-            onClick={toggleMenu}
-            className="text-2xl font-semibold text-gray-800 hover:text-yellow-700 flex items-center gap-3 transition-all"
-          >
-            <i className={`${item.icon} text-yellow-600`}></i>
-            {item.name}
-          </Link>
+          <NavLink
+    key={index}
+    to={item.link}
+    end={item.link === "/"}
+    onClick={toggleMenu}
+  >
+    {({ isActive }) => (
+      <div
+        className={`text-2xl font-semibold flex items-center gap-3 transition-all
+        ${isActive ? "text-yellow-700 scale-105" : "text-gray-800 hover:text-yellow-700"}`}
+      >
+        <i
+          className={`${item.icon} ${
+            isActive ? "text-yellow-600" : "text-yellow-600"
+          }`}
+        ></i>
+        {item.name}
+      </div>
+    )}
+  </NavLink>
         ))}
-        <Link to="/contact"
-        onClick={toggleMenu} className="mt-5 px-8 py-3 bg-black text-white font-bold rounded-full">
+        <Link
+          to="/contact"
+          onClick={toggleMenu}
+          className="mt-5 px-8 py-3 bg-black text-white font-bold rounded-full"
+        >
           Raise a Query
         </Link>
       </div>
