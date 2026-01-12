@@ -22,7 +22,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const { data } = await API.get(`/products/${id}`);
+        const { data } = await API.get(`/shop/products/${id}`);
         setProduct(data);
         setLoading(false);
       } catch (error) {
@@ -73,7 +73,7 @@ const ProductDetails = () => {
         title={product.name}
         description={product.description.substring(0, 150)} // Description lamba ho sakta hai, isliye 150 chars liye
         image={product.images[0]} // Product ki photo Google/WhatsApp pe dikhegi
-        url={`/product/${id}`}
+        url={`/shop/product/${id}`}
       />
       <div
         ref={container}

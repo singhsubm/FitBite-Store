@@ -311,7 +311,7 @@ const Shop = () => {
                             )}
 
                             <Link
-                              to={`/product/${item._id}`}
+                              to={`/shop/product/${item._id}`}
                               className="border border-[#4a3b2a]/20 px-4 py-2 rounded-full text-xs font-bold uppercase hover:bg-[#4a3b2a] hover:text-white transition-all duration-300"
                             >
                               View Details
