@@ -132,7 +132,7 @@ const BlogStack = () => {
                 {/* Content */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
                   
-                  <Link to="/blog" className="bg-white/10 backdrop-blur-lg border border-white/30 p-8 md:p-12 rounded-[30px] max-w-2xl shadow-lg" data-cursor="view">
+                  <Link to="/blog" className="bg-white/10 backdrop-blur-lg border border-white/30 p-8 md:p-12 rounded-[30px] max-w-2xl shadow-lg cursor-none" data-cursor="view">
                     
                     <div className={`inline-block px-4 py-1 border rounded-full text-[10px] md:text-xs tracking-widest uppercase mb-4 ${blog.theme === 'dark' ? 'border-white/50 text-white' : 'border-black/50 text-black'}`}>
                       {blog.date}
