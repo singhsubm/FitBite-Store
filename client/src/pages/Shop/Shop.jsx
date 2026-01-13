@@ -209,7 +209,7 @@ const Shop = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredProducts.map((item) => (
                       <Link
-                      to={`/shop/product/${item._id}`}
+                        to={`/shop/product/${item._id}`}
                         key={item._id}
                         className="product-card group relative bg-white rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#4a3b2a]/5"
                       >
@@ -260,7 +260,11 @@ const Shop = () => {
                               disabled={
                                 item.stock === 0 || item.countInStock === 0
                               }
-                              onClick={() => addToCart(item, 1)}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                addToCart(item, 1);
+                              }}
                               className={`w-8 h-8 rounded-full bg-[#d4a017] ${
                                 item.stock === 0 || item.countInStock === 0
                                   ? "bg-stone-300 text-stone-500 cursor-not-allowed" // Disable Style
