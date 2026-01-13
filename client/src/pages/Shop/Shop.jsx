@@ -208,7 +208,8 @@ const Shop = () => {
                 {filteredProducts.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredProducts.map((item) => (
-                      <div
+                      <Link
+                      to={`/shop/product/${item._id}`}
                         key={item._id}
                         className="product-card group relative bg-white rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#4a3b2a]/5"
                       >
@@ -318,7 +319,7 @@ const Shop = () => {
                             </Link>
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     ))}
                   </div>
                 ) : (
