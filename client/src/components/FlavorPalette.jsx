@@ -83,7 +83,7 @@ const FlavorPalette = () => {
   }, { scope: container });
 
   return (
-    <div ref={container} className="w-full bg-[#fdfbf7] py-20 overflow-hidden relative">
+    <div ref={container} className="w-full bg-[#fdfbf7] md:py-20 pt-20 pb-8  overflow-hidden relative">
       
       {/* 1. HEADER SECTION (Minimal & Classy) */}
       <div className="relative w-full mb-20 md:mb-28 px-4 text-center">
@@ -96,7 +96,7 @@ const FlavorPalette = () => {
       </div>
 
       {/* 2. CARDS CONTAINER */}
-      <div className="max-w-6xl mx-auto px-4 md:px-8">
+      <div className="max-w-6xl mx-auto px-10 md:px-8">
         
         {/* GRID: Phone (1 col), Tablet/Laptop (3 col) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-y-24 gap-x-10 mt-10">
@@ -120,7 +120,7 @@ const FlavorPalette = () => {
                         {/* Text Content */}
                         <div className="mt-4">
                             <p className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-60 mb-1">{item.sub}</p>
-                            <h3 className="text-2xl md:text-3xl font-playfair font-bold mb-2">{item.title}</h3>
+                            <h3 className="text-2xl md:text-xl lg:text-3xl font-playfair font-bold mb-2">{item.title}</h3>
                         </div>
                         
                         {/* Price & Rating */}

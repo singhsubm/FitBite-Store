@@ -165,7 +165,7 @@ const BlogStack = () => {
 
         </div>
 
-        <div className="h-[0vh]"></div>
+        {/* <div className="h-[0vh]"></div> */}
 
       </div>
     </ReactLenis>

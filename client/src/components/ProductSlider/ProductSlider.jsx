@@ -38,13 +38,13 @@ const ProductSlider = () => {
   };
 
   return (
-    <div className="w-full py-20 px-4 md:px-10">
+    <div className="w-full md:py-10 py-0 px-4 md:px-10">
       
       {/* 1. GLASS CONTAINER */}
       <div className="relative max-w-7xl mx-auto bg-white/40 backdrop-blur-md border border-white/50 rounded-[30px] md:rounded-[40px] p-6 md:p-12 shadow-lg">
         
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-10 md:mb-16 gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-6 md:mb-16 gap-6">
           <div className="w-full md:w-auto text-center md:text-left">
             <h2 className="text-3xl md:text-4xl playfair font-bold text-[#4a3b2a]">
               Our Best Sellers
@@ -52,12 +52,14 @@ const ProductSlider = () => {
             <p className="text-gray-500 mt-2 font-medium">Daily nutrition, curated for you.</p>
           </div>
           
-          {/* Custom Navigation Buttons (Hidden on mobile if you want, but kept for now) */}
-          <div className="hidden md:flex gap-4">
-            <button onClick={() => scroll('left')} className="w-12 h-12 rounded-full border border-stone-300 flex items-center justify-center hover:bg-[#d4a017] hover:text-white hover:border-[#d4a017] transition-all duration-300">
+          {/* Custom Navigation Buttons */}
+          <div className="hidden md:flex gap-4 justify-end w-auto">
+            <button onClick={() => scroll('left')} className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-stone-300 flex items-center justify-center hover:bg-[#d4a017] hover:text-white hover:border-[#d4a017] transition-all duration-300"
+>
               <i className="ri-arrow-left-line text-xl"></i>
             </button>
-            <button onClick={() => scroll('right')} className="w-12 h-12 rounded-full border border-stone-300 flex items-center justify-center hover:bg-[#d4a017] hover:text-white hover:border-[#d4a017] transition-all duration-300">
+            <button onClick={() => scroll('right')} className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-stone-300 flex items-center justify-center hover:bg-[#d4a017] hover:text-white hover:border-[#d4a017] transition-all duration-300"
+>
               <i className="ri-arrow-right-line text-xl"></i>
             </button>
           </div>
@@ -66,7 +68,7 @@ const ProductSlider = () => {
         {/* 2. SCROLLABLE PRODUCT TRACK */}
         <div 
           ref={scrollRef}
-          className="flex gap-4 md:gap-6 lg:gap-8 overflow-x-auto pb-12 hide-scrollbar scroll-smooth snap-x snap-mandatory px-2"
+          className="flex gap-4 md:gap-6 lg:gap-8 overflow-x-auto pb-5 hide-scrollbar scroll-smooth snap-x snap-mandatory px-2"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {products.map((item) => (
@@ -112,6 +114,22 @@ const ProductSlider = () => {
             </div>
           ))}
         </div>
+        {/* Mobile Navigation Buttons */}
+<div className="flex md:hidden justify-center gap-4 mt-0">
+  <button
+    onClick={() => scroll('left')}
+    className="w-10 h-10 rounded-full border border-stone-300 flex items-center justify-center hover:bg-[#d4a017] hover:text-white hover:border-[#d4a017] transition-all duration-300"
+  >
+    <i className="ri-arrow-left-line text-xl"></i>
+  </button>
+
+  <button
+    onClick={() => scroll('right')}
+    className="w-10 h-10 rounded-full border border-stone-300 flex items-center justify-center hover:bg-[#d4a017] hover:text-white hover:border-[#d4a017] transition-all duration-300"
+  >
+    <i className="ri-arrow-right-line text-xl"></i>
+  </button>
+</div>
 
       </div>
     </div>

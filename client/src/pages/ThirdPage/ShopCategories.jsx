@@ -59,10 +59,10 @@ const ShopCategories = () => {
   }, { scope: sectionRef });
 
   return (
-    <div ref={sectionRef} className="w-full py-20">
+    <div ref={sectionRef} className="w-full lg:py-10 py-0 pb-20">
       
       {/* Heading */}
-      <div className="text-center mb-4">
+      <div className="text-center mb-0">
         <h2 className="text-4xl md:text-6xl playfair font-bold text-[#4a3b2a] uppercase tracking-tight drop-shadow-lg">
             Shop by Category
           </h2>

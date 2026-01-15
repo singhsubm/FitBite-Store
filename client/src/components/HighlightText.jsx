@@ -3,7 +3,7 @@ import 'remixicon/fonts/remixicon.css';
 
 const HighlightText = () => {
   return (
-    <div className="w-full bg-[#fdfbf7] py-24 px-4 md:px-10 flex items-center justify-center overflow-hidden">
+    <div className="w-full bg-[#fdfbf7] lg:py-24 pt-15 px-4 md:px-10 flex items-center justify-center overflow-hidden">
       
       <div className=" playfair max-w-[1400px] mx-auto text-center leading-snug md:leading-tight">
         
