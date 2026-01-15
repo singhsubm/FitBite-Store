@@ -38,7 +38,7 @@ const ProductSlider = () => {
   };
 
   return (
-    <div className="w-full md:py-10 py-0 px-4 md:px-10">
+    <div className="w-full lg:py-10 pt-10 lg:pt-20 pb-20  px-4 md:px-10">
       
       {/* 1. GLASS CONTAINER */}
       <div className="relative max-w-7xl mx-auto bg-white/40 backdrop-blur-md border border-white/50 rounded-[30px] md:rounded-[40px] p-6 md:p-12 shadow-lg">
