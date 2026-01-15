@@ -222,15 +222,15 @@ const Shop = () => {
                 </p>
 
                 {filteredProducts.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
                     {paginatedProducts.map((item) => (
                       <Link
                         to={`/shop/product/${item._id}`}
                         key={item._id}
-                        className="product-card group relative bg-white rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#4a3b2a]/5"
+                        className="product-card group relative bg-white rounded-[16px] sm:rounded-[20px] md:rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#4a3b2a]/5"
                       >
                         {/* Image Area */}
-                        <div className="h-64 md:h-72 w-full overflow-hidden relative">
+                        <div className="h-44 sm:h-52 md:h-64 lg:h-72 w-full overflow-hidden relative">
                           <img
                             src={
                               item.images[0] ||
@@ -241,35 +241,36 @@ const Shop = () => {
                           />
 
                           {/* Badge */}
-                          <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide text-[#4a3b2a]">
+                          <span className="absolute top-4 left-1 md:left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[7px] md:text-[10px] font-bold uppercase tracking-wide text-[#4a3b2a]">
                             {item.category}
                           </span>
-                          <span className="absolute top-4 right-4 bg-white/90 text-[#d4a017] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide shadow-md">
+                          <span className="absolute top-4 right-1 md:right-4 bg-white/90 text-[#d4a017] px-3 py-1 rounded-full text-[7px] md:text-[10px] font-bold uppercase tracking-wide shadow-md">
                             {item.weight}
                             {/* Agar stock 0 hai to ye dikhao */}
-                            {(item.stock === 0 || item.countInStock === 0) && (
-                              <div className="absolute inset-0 bg-white/60 flex items-center justify-center z-10">
-                                <span className="bg-red-600 text-white px-4 py-2 font-bold uppercase text-xs tracking-widest -rotate-12 shadow-xl">
-                                  Out of Stock
-                                </span>
-                              </div>
-                            )}
                           </span>
                           {/* 🔥 DISCOUNT BADGE — YAHAN */}
                           {item.originalPrice > item.price && (
-                            <span className="absolute bottom-20 right-4 bg-white/80 text-red-500 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider  shadow-sm z-10">
-                              {Math.round(
-                                ((item.originalPrice - item.price) /
-                                  item.originalPrice) *
-                                  100
-                              )}
-                              % OFF
+                            <span
+                              className={`absolute bottom-15 md:bottom-20 right-2 md:right-4 px-2 py-1 rounded-full text-[7px] md:text-[10px] font-bold uppercase tracking-wider shadow-sm z-10
+                              ${
+                                item.stock === 0 || item.countInStock === 0
+                                  ? "bg-red-600 text-white"
+                                  : "bg-white/80 text-red-500"
+                              }`}
+                            >
+                              {item.stock === 0 || item.countInStock === 0
+                                ? "Out of Stock"
+                                : `${Math.round(
+                                    ((item.originalPrice - item.price) /
+                                      item.originalPrice) *
+                                      100
+                                  )}% OFF`}
                             </span>
                           )}
 
                           {/* Quick Add Button (Appears on Hover) */}
-                          <div className="absolute bottom-0 w-full  translate-y-0 transition-transform duration-500 bg-white/95 backdrop-blur-md p-4 border-t border-[#4a3b2a]/10 flex justify-between items-center">
-                            <span className="text-sm font-bold text-[#4a3b2a]">
+                          <div className="absolute bottom-0 w-full translate-y-0 transition-transform duration-500 bg-white/95 backdrop-blur-md p-2 sm:p-3 md:p-4 border-t border-[#4a3b2a]/10 flex justify-between items-center">
+                            <span className="text-xs md:text-sm font-bold text-[#4a3b2a]">
                               Quick Add
                             </span>
                             <button
@@ -297,9 +298,9 @@ const Shop = () => {
                         </div>
 
                         {/* Details Area */}
-                        <div className="p-6">
+                        <div className="p-3 sm:p-4 md:p-6">
                           <div className="flex justify-between items-start mb-2">
-                            <h3 className="font-playfair font-bold text-xl text-[#4a3b2a] leading-tight group-hover:text-[#d4a017] transition-colors">
+                            <h3 className="playfair font-bold text-sm sm:text-base md:text-xl text-[#4a3b2a] leading-tight group-hover:text-[#d4a017] transition-colors">
                               {item.name}
                             </h3>
                             <div className="flex gap-1 text-xs text-[#d4a017]">
@@ -310,18 +311,18 @@ const Shop = () => {
                             </div>
                           </div>
 
-                          <p className="text-stone-500 text-sm mb-4 line-clamp-2">
+                          <p className="text-stone-500 text-xs sm:text-sm mb-2 md:mb-4 line-clamp-2">
                             {item.description ||
                               "Premium quality sourced directly from the best farms."}
                           </p>
 
-                          <div className="flex justify-between items-center mt-auto">
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mt-auto">
                             {item.originalPrice > item.price ? (
                               <div className="flex flex-col">
                                 <span className="text-xs text-stone-400 line-through decoration-red-400">
                                   ₹{item.originalPrice}
                                 </span>
-                                <span className="text-xl font-bold text-[#4a3b2a]">
+                                <span className="text-sm sm:text-base md:text-xl font-bold text-[#4a3b2a]">
                                   ₹{item.price}
                                 </span>
                               </div>
@@ -333,7 +334,7 @@ const Shop = () => {
 
                             <Link
                               to={`/shop/product/${item._id}`}
-                              className="border border-[#4a3b2a]/20 px-4 py-2 rounded-full text-xs font-bold uppercase hover:bg-[#4a3b2a] hover:text-white transition-all duration-300"
+                              className="hidden md:block border border-[#4a3b2a]/20 px-4 py-2 rounded-full text-xs font-bold uppercase text-nowrap text-center w-full sm:w-auto hover:bg-[#4a3b2a] hover:text-white transition-all duration-300"
                             >
                               View Details
                             </Link>
