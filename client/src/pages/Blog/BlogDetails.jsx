@@ -36,11 +36,23 @@ const BlogDetails = () => {
 
   return (
     <div className="pt-32 pb-20 px-4 md:px-10 min-h-screen bg-[#fdfbf7]">
-      <SEO 
-        title={blog.title} 
+      <SEO
+        title={blog.title}
         description={blog.content.substring(0, 150)}
         image={blog.image}
       />
+
+      {/* BREADCRUMB */}
+      <div className="max-w-[1400px] mx-auto mb-8 text-xs font-bold tracking-widest uppercase text-stone-400">
+        <Link to="/" className="hover:text-[#d4a017]">
+          Home
+        </Link>{" "}
+        /{" "}
+        <Link to="/blog" className="hover:text-[#d4a017] mx-2">
+          Blog
+        </Link>{" "}
+        / <span className="text-[#4a3b2a] mx-2">{blog.title}</span>
+      </div>
 
       <div className="max-w-4xl mx-auto bg-white rounded-[40px] shadow-xl overflow-hidden border border-[#4a3b2a]/5">
         {/* HERO IMAGE */}
