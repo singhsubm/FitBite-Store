@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const BackendURL = 'https://fitbite-api-27qz.onrender.com/api';
+// const BackendURL = 'https://fitbite-api-27qz.onrender.com/api';
 const DevURL = 'http://localhost:5000/api';
 
 const API = axios.create({
-  // baseURL: import.meta.env.VITE_API_URL || BackendURL,
-  baseURL: DevURL || BackendURL,
+  baseURL: import.meta.env.VITE_API_URL ||'https://fitbite-api-27qz.onrender.com/api',
+  // baseURL: DevURL || BackendURL,
 });
 
 // === REQUEST INTERCEPTOR (Ye har request ke saath token bhejege) ===
