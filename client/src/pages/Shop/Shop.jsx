@@ -142,8 +142,36 @@ const Shop = () => {
           {/* === SIDEBAR (FILTERS) === */}
           {/* Mobile: Full width, Desktop: Sticky 1/4 width */}
           <aside className="shop-sidebar w-full md:w-1/4 h-fit md:sticky md:top-32 z-10">
+            {/* 📱 MOBILE COMPACT FILTER BAR */}
+            <div className="md:hidden bg-white p-4 rounded-2xl shadow-sm mb-6 border border-[#4a3b2a]/5 space-y-3">
+              {/* Search */}
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-[#fdfbf7] rounded-full py-3 px-10 text-sm outline-none border border-[#4a3b2a]/10 focus:border-[#d4a017]"
+                />
+                <i className="ri-search-line absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+              </div>
+
+              {/* Category */}
+              <select
+                value={activeCategory}
+                onChange={(e) => setActiveCategory(e.target.value)}
+                className="w-full bg-[#fdfbf7] border border-[#4a3b2a]/10 rounded-full px-5 py-3 text-sm font-medium outline-none focus:border-[#d4a017]"
+              >
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* Search Box */}
-            <div className="bg-white p-6 rounded-[30px] shadow-sm mb-8 border border-[#4a3b2a]/5">
+            <div className="hidden md:block bg-white p-6 rounded-[30px] shadow-sm mb-8 border border-[#4a3b2a]/5">
               <h3 className="font-playfair font-bold text-xl mb-4 text-[#4a3b2a]">
                 Search
               </h3>
@@ -160,7 +188,7 @@ const Shop = () => {
             </div>
 
             {/* Categories */}
-            <div className="bg-white p-6 md:p-8 rounded-[30px] shadow-sm border border-[#4a3b2a]/5">
+            <div className="hidden md:block bg-white p-6 md:p-8 rounded-[30px] shadow-sm border border-[#4a3b2a]/5">
               <h3 className="font-playfair font-bold text-xl mb-4 md:mb-6 text-[#4a3b2a]">
                 Categories
               </h3>
