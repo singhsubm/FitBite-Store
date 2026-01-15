@@ -17,29 +17,16 @@ connectDB();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (
-      !origin ||
-      origin === "https://fitbite-store.vercel.app"
-    ) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
+    origin: process.env.CLIENT_URL || "http://localhost:5173", 
+    credentials: true
 }));
 
 // Basic Route
 app.get('/', (req, res) => {
   res.send('API is running...');
-});
-
-app.get("/health", (req, res) => {
-  res.status(200).send("OK");
 });
 
 app.use('/api/owner', ownerRoutes);
