@@ -19,6 +19,8 @@ const categories = [
   "Fitness Pack",
 ];
 
+const ITEMS_PER_PAGE = 15;
+
 const Shop = () => {
   // Products ab empty start honge
   const [products, setProducts] = useState([]);
@@ -27,6 +29,7 @@ const Shop = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true); // Loading state
   const container = useRef(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { addToCart } = useCart();
 
@@ -66,6 +69,7 @@ const Shop = () => {
     }
 
     setFilteredProducts(filtered);
+    setCurrentPage(1);
 
     if (filtered.length === 0) return;
 
@@ -82,6 +86,13 @@ const Shop = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   // Initial Page Load Animation
   useGSAP(
@@ -202,12 +213,17 @@ const Shop = () => {
               <>
                 {/* Results Count */}
                 <p className="text-sm text-stone-400 mb-6 font-medium">
-                  Showing {filteredProducts.length} results
+                  Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–
+                  {Math.min(
+                    currentPage * ITEMS_PER_PAGE,
+                    filteredProducts.length
+                  )}{" "}
+                  of {filteredProducts.length} results
                 </p>
 
                 {filteredProducts.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredProducts.map((item) => (
+                    {paginatedProducts.map((item) => (
                       <Link
                         to={`/shop/product/${item._id}`}
                         key={item._id}
@@ -336,6 +352,30 @@ const Shop = () => {
                     <p className="text-stone-500">
                       Try adjusting your filters.
                     </p>
+                  </div>
+                )}
+
+                {totalPages > 1 && (
+                  <div className="flex justify-center items-center gap-4 mt-12">
+                    <button
+                      disabled={currentPage === 1}
+                      onClick={() => setCurrentPage((p) => p - 1)}
+                      className="px-6 py-2 rounded-full border text-sm font-bold disabled:opacity-40"
+                    >
+                      Prev
+                    </button>
+
+                    <span className="text-sm font-medium">
+                      Page {currentPage} of {totalPages}
+                    </span>
+
+                    <button
+                      disabled={currentPage === totalPages}
+                      onClick={() => setCurrentPage((p) => p + 1)}
+                      className="px-6 py-2 rounded-full border text-sm font-bold disabled:opacity-40"
+                    >
+                      Next
+                    </button>
                   </div>
                 )}
               </>
