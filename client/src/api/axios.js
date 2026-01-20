@@ -8,7 +8,7 @@ const API = axios.create({
   // baseURL: DevURL || BackendURL,
 });
 
-console.log("API URL =>", import.meta.env.VITE_API_URL);
+// console.log("API URL =>", import.meta.env.VITE_API_URL);
 
 // === REQUEST INTERCEPTOR (Ye har request ke saath token bhejege) ===
 API.interceptors.request.use((req) => {
