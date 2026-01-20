@@ -1,25 +1,28 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
+const dotenv = require('dotenv');
+dotenv.config();
 
-const sendEmail = async (options) => {
-  // 1. Transporter banao (Gmail use kar rahe ho to App Password chahiye hoga)
-  const transporter = nodemailer.createTransport({
-    service: 'gmail', // Ya host/port use kar sakte ho
-    auth: {
-      user: process.env.EMAIL_USER, // .env me daalna padega
-      pass: process.env.EMAIL_PASS, // .env me daalna padega
-    },
+const transporter = nodemailer.createTransport({
+  host: process.env.BREVO_HOST,
+  port: process.env.BREVO_PORT,
+  secure: false, // TLS
+  auth: {
+    user: process.env.BREVO_USER,
+    pass: process.env.BREVO_PASS,
+  },
+});
+
+const sendEmail = async ({ email, subject, message }) => {
+  await transporter.sendMail({
+    from: "FitBite <singhyu251@gmail.com>",
+    to: email,
+    subject,
+    text: message,
   });
-
-  // 2. Email Options
-  const mailOptions = {
-    from: "FitBite <" + process.env.EMAIL_USER + ">",
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-  };
-
-  // 3. Send
-  await transporter.sendMail(mailOptions);
 };
+
+console.log("BREVO_USER", process.env.BREVO_USER);
+console.log("BREVO_PASS", process.env.BREVO_PASS ? "LOADED" : "MISSING");
+
 
 module.exports = sendEmail;
