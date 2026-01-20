@@ -1,12 +1,14 @@
 import axios from 'axios';
 
-const BackendURL = 'https://fitbite-api-27qz.onrender.com/api';
+// const BackendURL = 'https://fitbite-api-27qz.onrender.com/api';
 // const BackendURL = 'http://localhost:5000/api';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ||BackendURL,
+  baseURL: import.meta.env.VITE_API_URL,
   // baseURL: DevURL || BackendURL,
 });
+
+console.log("API URL =>", import.meta.env.VITE_API_URL);
 
 // === REQUEST INTERCEPTOR (Ye har request ke saath token bhejege) ===
 API.interceptors.request.use((req) => {

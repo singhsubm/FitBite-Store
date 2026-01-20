@@ -18,11 +18,14 @@ connectDB();
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin: "https://fitbite-store.vercel.app",
+  // origin: "https://fitbite-store.vercel.app",
   // origin : "http://localhost:5173",
+  origin : `${process.env.CLIENT_URL}`,
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
+
+console.log("CLIENT_URL =>", process.env.CLIENT_URL);
 
 // app.use(cors({
 //     origin: function (origin, callback) {
