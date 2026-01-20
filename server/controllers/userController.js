@@ -146,15 +146,17 @@ const forgotPassword = async (req, res) => {
 
   try {
 
-    res
-      .status(200)
-      .json({ success: true, message: `Email sent to ${user.email}` });
-      
     await sendEmail({
       email: user.email,
       subject: "FitBite Password Recovery",
       message,
     });
+
+    res
+      .status(200)
+      .json({ success: true, message: `Email sent to ${user.email}` });
+      
+    
 
     
   } catch (error) {
