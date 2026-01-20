@@ -12,7 +12,7 @@ const sendEmail = async (options) => {
 
   // 2. Email Options
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: "FitBite <" + process.env.EMAIL_USER + ">",
     to: options.email,
     subject: options.subject,
     text: options.message,
