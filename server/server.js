@@ -17,23 +17,28 @@ connectDB();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
-
 app.use(cors({
-    origin: function (origin, callback) {
-    if (
-      !origin ||
-      origin === "https://fitbite-store.vercel.app"
-      // origin === "http://localhost:5173"
-      // origin === `${process.env.CLIENT_URL}`
-    ) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: "https://fitbite-store.vercel.app",
+  // origin : "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
+
+// app.use(cors({
+//     origin: function (origin, callback) {
+//     if (
+//       !origin ||
+//       origin === "https://fitbite-store.vercel.app"
+//       // origin === "http://localhost:5173"
+//       // origin === `${process.env.CLIENT_URL}`
+//     ) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true,
+// }));
 
 // Basic Route
 app.get('/', (req, res) => {
