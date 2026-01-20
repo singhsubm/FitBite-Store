@@ -140,7 +140,7 @@ const forgotPassword = async (req, res) => {
 
   // Link banao (Frontend ka URL)
   // Maan le tera frontend localhost:5173 pe chal raha hai
-  const resetUrl = `http://localhost:5173/password/reset/${resetToken}`;
+  const resetUrl = `${process.env.CLIENT_URL}password/reset/${resetToken}`;
 
   const message = `Click this link to reset your password: \n\n ${resetUrl}`;
 
