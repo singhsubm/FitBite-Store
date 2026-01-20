@@ -25,6 +25,7 @@ app.use(cors({
       !origin ||
       origin === "https://fitbite-store.vercel.app"
       // origin === "http://localhost:5173"
+      // origin === `${process.env.CLIENT_URL}`
     ) {
       callback(null, true);
     } else {

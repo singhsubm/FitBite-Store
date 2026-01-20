@@ -140,20 +140,23 @@ const forgotPassword = async (req, res) => {
 
   // Link banao (Frontend ka URL)
   // Maan le tera frontend localhost:5173 pe chal raha hai
-  const resetUrl = `${process.env.CLIENT_URL}password/reset/${resetToken}`;
+  const resetUrl = `https://fitbite-store.vercel.app/password/reset/${resetToken}`;
 
   const message = `Click this link to reset your password: \n\n ${resetUrl}`;
 
   try {
+
+    res
+      .status(200)
+      .json({ success: true, message: `Email sent to ${user.email}` });
+      
     await sendEmail({
       email: user.email,
       subject: "FitBite Password Recovery",
       message,
     });
 
-    res
-      .status(200)
-      .json({ success: true, message: `Email sent to ${user.email}` });
+    
   } catch (error) {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
