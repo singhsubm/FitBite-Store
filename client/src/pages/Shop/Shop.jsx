@@ -59,12 +59,12 @@ const Shop = () => {
       filtered = products.filter(
         (item) =>
           item.name &&
-          item.name.toLowerCase().includes(searchQuery.toLowerCase())
+          item.name.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     } else if (activeCategory !== "All") {
       // 📂 CATEGORY filter only when search empty
       filtered = products.filter(
-        (item) => item.category?.trim() === activeCategory.trim()
+        (item) => item.category?.trim() === activeCategory.trim(),
       );
     }
 
@@ -77,7 +77,7 @@ const Shop = () => {
     gsap.fromTo(
       ".product-card",
       { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, stagger: 0.1 }
+      { y: 0, opacity: 1, stagger: 0.1 },
     );
   }, [activeCategory, searchQuery, products, loading]);
 
@@ -91,7 +91,7 @@ const Shop = () => {
 
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
 
   // Initial Page Load Animation
@@ -113,7 +113,7 @@ const Shop = () => {
         });
       }
     },
-    { scope: container, dependencies: [loading] }
+    { scope: container, dependencies: [loading] },
   );
 
   return (
@@ -244,7 +244,7 @@ const Shop = () => {
                   Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–
                   {Math.min(
                     currentPage * ITEMS_PER_PAGE,
-                    filteredProducts.length
+                    filteredProducts.length,
                   )}{" "}
                   of {filteredProducts.length} results
                 </p>
@@ -258,7 +258,7 @@ const Shop = () => {
                         className="product-card group relative bg-white rounded-[16px] sm:rounded-[20px] md:rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#4a3b2a]/5"
                       >
                         {/* Image Area */}
-                        <div className="h-44 sm:h-52 md:h-64 lg:h-72 w-full overflow-hidden relative">
+                        <div className="h-30 sm:h-45 md:h-54 lg:h-52 w-full overflow-hidden relative">
                           <img
                             src={
                               item.images[0] ||
@@ -269,21 +269,15 @@ const Shop = () => {
                           />
 
                           {/* Badge */}
-                          <span className="absolute top-4 left-1 md:left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[7px] md:text-[10px] font-bold uppercase tracking-wide text-[#4a3b2a]">
-                            {item.category}
-                          </span>
-                          <span className="absolute top-4 right-1 md:right-4 bg-white/90 text-[#d4a017] px-3 py-1 rounded-full text-[7px] md:text-[10px] font-bold uppercase tracking-wide shadow-md">
-                            {item.weight}
-                            {/* Agar stock 0 hai to ye dikhao */}
-                          </span>
+
                           {/* 🔥 DISCOUNT BADGE — YAHAN */}
                           {item.originalPrice > item.price && (
                             <span
-                              className={`absolute bottom-15 md:bottom-20 right-2 md:right-4 px-2 py-1 rounded-full text-[7px] md:text-[10px] font-bold uppercase tracking-wider shadow-sm z-10
+                              className={`absolute bottom-35 md:bottom-55 lg:bottom-5 right-2 md:right-4 px-2 py-1 rounded-full text-[7px] md:text-[10px] font-bold uppercase tracking-wider shadow-sm z-10
                               ${
                                 item.stock === 0 || item.countInStock === 0
                                   ? "bg-red-600 text-white"
-                                  : "bg-white/80 text-red-500"
+                                  : "bg-white/90 text-red-500"
                               }`}
                             >
                               {item.stock === 0 || item.countInStock === 0
@@ -291,81 +285,82 @@ const Shop = () => {
                                 : `${Math.round(
                                     ((item.originalPrice - item.price) /
                                       item.originalPrice) *
-                                      100
+                                      100,
                                   )}% OFF`}
                             </span>
                           )}
 
-                          {/* Quick Add Button (Appears on Hover) */}
-                          <div className="absolute bottom-0 w-full translate-y-0 transition-transform duration-500 bg-white/95 backdrop-blur-md p-2 sm:p-3 md:p-4 border-t border-[#4a3b2a]/10 flex justify-between items-center">
-                            <span className="text-xs md:text-sm font-bold text-[#4a3b2a]">
-                              Quick Add
-                            </span>
-                            <button
-                              disabled={
-                                item.stock === 0 || item.countInStock === 0
-                              }
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                addToCart(item, 1);
-                              }}
-                              className={`w-8 h-8 rounded-full bg-[#d4a017] ${
-                                item.stock === 0 || item.countInStock === 0
-                                  ? "bg-stone-300 text-stone-500 cursor-not-allowed" // Disable Style
-                                  : "bg-[#4a3b2a] text-white hover:bg-[#d4a017]" // Normal Style
-                              }`}
-                            >
-                              {item.stock === 0 || item.countInStock === 0 ? (
-                                <i className="ri-add-line"></i>
-                              ) : (
-                                <i className="ri-add-line"></i>
-                              )}
-                            </button>
-                          </div>
                         </div>
 
                         {/* Details Area */}
-                        <div className="p-3 sm:p-4 md:p-6">
-                          <div className="flex justify-between items-start mb-2">
-                            <h3 className="playfair font-bold text-sm sm:text-base md:text-xl text-[#4a3b2a] leading-tight group-hover:text-[#d4a017] transition-colors">
-                              {item.name}
-                            </h3>
-                            <div className="flex gap-1 text-xs text-[#d4a017]">
-                              {/* <i className="ri-star-fill"></i>
+                        <div className="p-3 sm:p-4 md:p-6 relative ">
+                          <div className="absolute -top-4 md:-top-7 left-1/2 -translate-x-1/2 w-full translate-y-0 transition-transform duration-500  flex justify-center items-center">
+                            <div className="bg-white w-10 h-10 md:w-15 md:h-15 rounded-full flex justify-center items-center">
+                              <button
+                                disabled={
+                                  item.stock === 0 || item.countInStock === 0
+                                }
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  addToCart(item, 1);
+                                }}
+                                className={`md:w-11 md:h-11 w-7 h-7 rounded-full bg-[#d4a017] ${
+                                  item.stock === 0 || item.countInStock === 0
+                                    ? "bg-stone-300 text-stone-500 cursor-not-allowed" // Disable Style
+                                    : "bg-[#4a3b2a] text-white hover:bg-[#d4a017]" // Normal Style
+                                }`}
+                              >
+                                {item.stock === 0 || item.countInStock === 0 ? (
+                                  <i className="ri-add-line"></i>
+                                ) : (
+                                  <i className="ri-add-line"></i>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                          <div className="">
+                            <div className="flex justify-between items-start pt-4 mb-2">
+                              <h3 className="font-bold text-sm sm:text-base md:text-xl text-[#4a3b2a] leading-tight group-hover:text-[#d4a017] transition-colors">
+                                {item.name}
+                              </h3>
+                              <div className="flex gap-1 text-xs text-[#d4a017]">
+                                {/* <i className="ri-star-fill"></i>
                               <span className="text-stone-400">
                                 {item.rating || 4.5}
                               </span> */}
+                              </div>
                             </div>
-                          </div>
 
-                          <p className="text-stone-500 text-xs sm:text-sm mb-2 md:mb-4 line-clamp-2">
-                            {item.description ||
-                              "Premium quality sourced directly from the best farms."}
-                          </p>
+                            <p className="text-stone-500 text-xs sm:text-sm mb-2 md:mb-4 line-clamp-2">
+                              {item.weight || "500g"}
+                              {"\u00A0"}|{"\u00A0"}
+                              {item.category}
+                            </p>
 
-                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mt-auto">
-                            {item.originalPrice > item.price ? (
-                              <div className="flex flex-col">
-                                <span className="text-xs text-stone-400 line-through decoration-red-400">
-                                  ₹{item.originalPrice}
-                                </span>
-                                <span className="text-sm sm:text-base md:text-xl font-bold text-[#4a3b2a]">
+                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mt-auto">
+                              {item.originalPrice > item.price ? (
+                                <div className="flex flex-col">
+                                  <span className="text-xs text-stone-400 line-through decoration-red-400">
+                                    ₹{item.originalPrice}
+                                  </span>
+                                  <span className="text-sm sm:text-base md:text-xl font-bold text-[#4a3b2a]">
+                                    ₹{item.price}
+                                  </span>
+                                </div>
+                              ) : (
+                                <span className="text-xl font-bold text-[#4a3b2a]">
                                   ₹{item.price}
                                 </span>
-                              </div>
-                            ) : (
-                              <span className="text-xl font-bold text-[#4a3b2a]">
-                                ₹{item.price}
-                              </span>
-                            )}
+                              )}
 
-                            <Link
-                              to={`/shop/product/${item._id}`}
-                              className="hidden md:block border border-[#4a3b2a]/20 px-4 py-2 rounded-full text-xs font-bold uppercase text-nowrap text-center w-full sm:w-auto hover:bg-[#4a3b2a] hover:text-white transition-all duration-300"
-                            >
-                              View Details
-                            </Link>
+                              <Link
+                                to={`/shop/product/${item._id}`}
+                                className="hidden md:block border border-[#4a3b2a]/20 px-4 py-2 rounded-full text-xs font-bold uppercase text-nowrap text-center w-full sm:w-auto hover:bg-[#4a3b2a] hover:text-white transition-all duration-300"
+                              >
+                                View Details
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       </Link>

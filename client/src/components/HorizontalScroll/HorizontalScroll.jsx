@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { Link } from 'react-router-dom';
 
 // GSAP Plugin Register
 gsap.registerPlugin(ScrollTrigger);
@@ -92,7 +93,7 @@ const HorizontalScroll = () => {
         >
           
           {slides.map((slide, index) => (
-            <div key={index} className="w-screen lg:cursor-none h-screen relative cursor-pointer flex-shrink-0 flex items-center justify-center overflow-hidden" data-cursor="trust">
+            <Link to={"/story"} key={index} className="w-screen h-screen relative cursor-none  flex-shrink-0 flex items-center justify-center overflow-hidden" data-cursor="trust">
               
               {/* BACKGROUND IMAGE */}
               <div className="absolute inset-0 z-0">
@@ -123,7 +124,7 @@ const HorizontalScroll = () => {
               {/* Artistic Line/Border */}
               <div className="absolute bottom-10 left-10 w-[90%] h-[1px] bg-white/30"></div>
               
-            </div>
+            </Link>
           ))}
 
         </div>

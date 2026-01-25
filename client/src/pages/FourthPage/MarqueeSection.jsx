@@ -62,7 +62,7 @@ const MarqueeSection = () => {
 
   return (
     // CONTAINER: md:h-screen (Laptop pe full height), justify-center (Vertically Center)
-    <div ref={containerRef} className="w-full mt-20 md:py-0 md:h-screen bg-[#fdfbf7] overflow-hidden flex flex-col justify-center items-center relative">
+    <div ref={containerRef} className="w-full cursor-default mt-20 md:py-0 md:h-screen bg-[#fdfbf7] overflow-hidden flex flex-col justify-center items-center relative">
       
       {/* RIBBON 1 */}
       <Ribbon 

@@ -57,6 +57,7 @@ const CustomCursor = () => {
       gsap.to(cursorRef.current, {
         width: 100,
         height: 100,
+        opacity: 1, 
         backgroundColor: "rgba(255, 255, 255, 0.1)",
         backdropFilter: "blur(10px)",
         border: "1px solid rgba(255, 255, 255, 0.3)",
@@ -71,18 +72,17 @@ const CustomCursor = () => {
         duration: 0.3,
       });
     } else {
-      // Normal Black Dot State
+      // Hide cursor completely
       gsap.to(cursorRef.current, {
-        width: 16,
-        height: 16,
-        backgroundColor: "#000",
-        backdropFilter: "blur(0px)",
+        width: 0,
+        height: 0,
+        opacity: 0,
+        backgroundColor: "transparent",
         border: "none",
-        duration: 0.3,
+        duration: 0.2,
         ease: "power2.out",
       });
 
-      // Hide Text
       gsap.to(textRef.current, {
         opacity: 0,
         scale: 0,
