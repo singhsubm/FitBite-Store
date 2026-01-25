@@ -273,7 +273,7 @@ const Shop = () => {
                           {/* 🔥 DISCOUNT BADGE — YAHAN */}
                           {item.originalPrice > item.price && (
                             <span
-                              className={`absolute bottom-35 md:bottom-55 lg:bottom-5 right-2 md:right-4 px-2 py-1 rounded-full text-[7px] md:text-[10px] font-bold uppercase tracking-wider shadow-sm z-10
+                              className={`absolute bottom-22 md:bottom-45 lg:bottom-5 right-2 md:right-4 px-2 py-1 rounded-full text-[7px] md:text-[10px] font-bold uppercase tracking-wider shadow-sm z-10
                               ${
                                 item.stock === 0 || item.countInStock === 0
                                   ? "bg-red-600 text-white"
