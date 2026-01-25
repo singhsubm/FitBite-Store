@@ -63,6 +63,11 @@ const AdminDashboard = () => {
     },
   });
 
+  const outOfStockCount = products.filter(
+    (p) => p.stock === 0 || p.countInStock === 0,
+  ).length;
+
+
   const changeStatusHandler = async (id, newStatus) => {
     try {
       // Backend ko naya status bhejo
@@ -200,7 +205,7 @@ const AdminDashboard = () => {
     } catch (error) {
       showToast(
         isEditing ? "Error updating product" : "Error adding product",
-        "error"
+        "error",
       );
     }
   };
@@ -414,7 +419,9 @@ const AdminDashboard = () => {
     if (activeTab === "blogs") fetchBlogs();
     if (activeTab === "subscribers") fetchSubscribers();
     // <--- Add this
+    fetchOrders();
     fetchQueries();
+    fetchProducts();
   }, [activeTab]);
 
   useEffect(() => {
@@ -429,10 +436,11 @@ const AdminDashboard = () => {
         </h1>
 
         {/* TABS BUTTONS */}
-        <div className="flex gap-2 sm:gap-3 mb-8 border-b border-[#4a3b2a]/10 pb-4
+        <div
+          className="flex gap-2 sm:gap-3 mb-8 border-b border-[#4a3b2a]/10 pb-4
                 overflow-x-auto lg:overflow-visible
-                whitespace-nowrap scrollbar-hide">
-
+                whitespace-nowrap scrollbar-hide"
+        >
           <button
             onClick={() => setActiveTab("orders")}
             className={`px-4 md:px-4 lg:px-6 py-2 rounded-full font-bold uppercase tracking-widest text-xs transition-all ${
@@ -446,9 +454,11 @@ const AdminDashboard = () => {
           <button
             onClick={() => setActiveTab("products")}
             className={`px-6 py-2 rounded-full font-bold uppercase tracking-widest text-xs transition-all ${
-              activeTab === "products"
-                ? "bg-[#4a3b2a] text-white"
-                : "bg-white text-stone-500"
+              outOfStockCount > 0
+                ? "bg-red-100 text-red-700 border border-red-300"
+                : activeTab === "products"
+                  ? "bg-[#4a3b2a] text-white"
+                  : "bg-white text-stone-500"
             }`}
           >
             Manage Products
@@ -506,9 +516,11 @@ const AdminDashboard = () => {
         </div>
 
         {/* === CONTENT AREA === */}
-        <div className="bg-white p-4 sm:p-6 md:p-8 
+        <div
+          className="bg-white p-4 sm:p-6 md:p-8 
                 rounded-[24px] md:rounded-[30px] 
-                shadow-xl border border-[#4a3b2a]/5 min-h-[400px]">
+                shadow-xl border border-[#4a3b2a]/5 min-h-[400px]"
+        >
           {/* 1. ORDERS TAB */}
           {activeTab === "orders" && (
             <div>
@@ -631,8 +643,10 @@ const AdminDashboard = () => {
           {activeTab === "products" && (
             <div>
               {/* === NEW: FILTER & SEARCH BAR === */}
-              <div className="mb-6 flex flex-col md:flex-col lg:flex-row gap-4 
-                justify-between items-stretch lg:items-center">
+              <div
+                className="mb-6 flex flex-col md:flex-col lg:flex-row gap-4 
+                justify-between items-stretch lg:items-center"
+              >
                 {/* A. Search Input */}
                 <div className="relative w-full lg:w-1/3">
                   <i className="ri-search-line absolute left-3 top-3 text-stone-400"></i>
@@ -647,20 +661,35 @@ const AdminDashboard = () => {
 
                 {/* B. Category Filter (Scrollable on mobile) */}
                 <div className="flex gap-2 overflow-x-auto w-full lg:w-2/3 pb-2 scrollbar-hide">
-                  {categories.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setFilterCategory(cat)}
-                      className={`px-4 py-1 rounded-full text-[10px] font-bold uppercase whitespace-nowrap transition-all border
-                    ${
-                      filterCategory === cat
-                        ? "bg-[#4a3b2a] text-white border-[#4a3b2a]"
-                        : "bg-white text-stone-500 border-stone-200 hover:border-[#d4a017]"
-                    }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
+                  {categories.map((cat) => {
+                    const isOutOfStockTab = cat === "Out of Stock";
+
+                    return (
+                      <button
+                        key={cat}
+                        onClick={() => setFilterCategory(cat)}
+                        className={`px-4 py-1 rounded-full text-[10px] font-bold uppercase whitespace-nowrap transition-all border flex items-center gap-1
+      ${
+        filterCategory === cat
+          ? isOutOfStockTab
+            ? "bg-red-600 text-white border-red-600"
+            : "bg-[#4a3b2a] text-white border-[#4a3b2a]"
+          : isOutOfStockTab && outOfStockCount > 0
+            ? "bg-red-100 text-red-700 border-red-300"
+            : "bg-white text-stone-500 border-stone-200 hover:border-[#d4a017]"
+      }`}
+                      >
+                        {cat}
+
+                        {/* Badge only for Out of Stock */}
+                        {isOutOfStockTab && outOfStockCount > 0 && (
+                          <span className="ml-1 bg-red-500 text-white px-2 py-0.5 rounded-full text-[9px] animate-pulse">
+                            {outOfStockCount}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
               {/* ================================ */}
@@ -875,9 +904,11 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* === NUTRITION SECTION === */}
-                <div className="bg-stone-50 p-4 sm:p-5 lg:p-6 
+                <div
+                  className="bg-stone-50 p-4 sm:p-5 lg:p-6 
                 w-full col-span-full 
-                rounded-xl border border-stone-200">
+                rounded-xl border border-stone-200"
+                >
                   <h3 className="text-sm font-bold uppercase text-[#4a3b2a] mb-4">
                     Nutrition Facts (Per 100g)
                   </h3>
@@ -1007,10 +1038,10 @@ const AdminDashboard = () => {
                       key={q._id}
                       className={`border p-3 sm:p-4 md:p-5 lg:p-6 
               rounded-xl relative transition ${
-                        q.status === "New"
-                          ? "bg-white border-[#d4a017] shadow-md"
-                          : "bg-stone-50 border-transparent opacity-80"
-                      }`}
+                q.status === "New"
+                  ? "bg-white border-[#d4a017] shadow-md"
+                  : "bg-stone-50 border-transparent opacity-80"
+              }`}
                     >
                       {/* New Badge */}
                       {q.status === "New" && (
@@ -1019,8 +1050,10 @@ const AdminDashboard = () => {
                         </span>
                       )}
 
-                      <div className="flex flex-col sm:flex-row gap-3 
-                justify-between items-start mb-2">
+                      <div
+                        className="flex flex-col sm:flex-row gap-3 
+                justify-between items-start mb-2"
+                      >
                         <div>
                           <h4 className="font-bold text-[#4a3b2a]">{q.name}</h4>
                           <p className="text-xs text-stone-500">
@@ -1046,8 +1079,10 @@ const AdminDashboard = () => {
                           </button>
                         </div>
                       </div>
-                      <p className="text-stone-600 bg-white/50 p-3 sm:p-4 
-              rounded-lg mt-2 text-sm border border-stone-100 break-words">
+                      <p
+                        className="text-stone-600 bg-white/50 p-3 sm:p-4 
+              rounded-lg mt-2 text-sm border border-stone-100 break-words"
+                      >
                         {q.message}
                       </p>
                       <a
