@@ -5,6 +5,7 @@ import "remixicon/fonts/remixicon.css";
 import API from "../../api/axios";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
+import { useLocation } from "react-router-dom";
 import SEO from "../../components/SEO";
 
 const categories = [
@@ -22,10 +23,12 @@ const categories = [
 const ITEMS_PER_PAGE = 15;
 
 const Shop = () => {
+  const location = useLocation();
   // Products ab empty start honge
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]); // Filter ke liye alag state
-  const [activeCategory, setActiveCategory] = useState("All");
+  const initialCategory = location.state?.category || "All";
+  const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true); // Loading state
   const container = useRef(null);
@@ -55,14 +58,12 @@ const Shop = () => {
     let filtered = products;
 
     if (searchQuery.trim()) {
-      // 🔍 SEARCH → GLOBAL (ignore category)
       filtered = products.filter(
         (item) =>
           item.name &&
           item.name.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     } else if (activeCategory !== "All") {
-      // 📂 CATEGORY filter only when search empty
       filtered = products.filter(
         (item) => item.category?.trim() === activeCategory.trim(),
       );
@@ -70,16 +71,22 @@ const Shop = () => {
 
     setFilteredProducts(filtered);
     setCurrentPage(1);
+  }, [activeCategory, searchQuery, products, loading]);
 
-    if (filtered.length === 0) return;
+  useEffect(() => {
+    if (filteredProducts.length === 0) return;
 
     gsap.killTweensOf(".product-card");
-    gsap.fromTo(
-      ".product-card",
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, stagger: 0.1 },
-    );
-  }, [activeCategory, searchQuery, products, loading]);
+
+    gsap.to(".product-card", {
+      opacity: 1,
+      y: 0,
+      stagger: 0.08,
+      duration: 0.4,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
+  }, [filteredProducts]);
 
   // 2. FILTER LOGIC
 
@@ -115,6 +122,12 @@ const Shop = () => {
     },
     { scope: container, dependencies: [loading] },
   );
+
+  useEffect(() => {
+    if (location.state?.category) {
+      setActiveCategory(location.state.category);
+    }
+  }, [location.state]);
 
   return (
     <>
@@ -255,7 +268,7 @@ const Shop = () => {
                       <Link
                         to={`/shop/product/${item._id}`}
                         key={item._id}
-                        className="product-card group relative bg-white rounded-[16px] sm:rounded-[20px] md:rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#4a3b2a]/5"
+                        className="product-card opacity-0 group relative bg-white rounded-[16px] sm:rounded-[20px] md:rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#4a3b2a]/5 cursor-default"
                       >
                         {/* Image Area */}
                         <div className="h-30 sm:h-45 md:h-54 lg:h-52 w-full overflow-hidden relative">
@@ -289,7 +302,6 @@ const Shop = () => {
                                   )}% OFF`}
                             </span>
                           )}
-
                         </div>
 
                         {/* Details Area */}
@@ -308,7 +320,7 @@ const Shop = () => {
                                 className={`md:w-11 md:h-11 w-7 h-7 rounded-full bg-[#d4a017] ${
                                   item.stock === 0 || item.countInStock === 0
                                     ? "bg-stone-300 text-stone-500 cursor-not-allowed" // Disable Style
-                                    : "bg-[#4a3b2a] text-white hover:bg-[#d4a017]" // Normal Style
+                                    : "bg-[#4a3b2a] text-white hover:bg-[#d4a017] cursor-pointer" // Normal Style
                                 }`}
                               >
                                 {item.stock === 0 || item.countInStock === 0 ? (
@@ -354,12 +366,9 @@ const Shop = () => {
                                 </span>
                               )}
 
-                              <Link
-                                to={`/shop/product/${item._id}`}
-                                className="hidden md:block border border-[#4a3b2a]/20 px-4 py-2 rounded-full text-xs font-bold uppercase text-nowrap text-center w-full sm:w-auto hover:bg-[#4a3b2a] hover:text-white transition-all duration-300"
-                              >
+                              <button className="hidden md:block border border-[#4a3b2a]/20 px-4 py-2 rounded-full text-xs font-bold uppercase text-nowrap text-center w-full sm:w-auto hover:bg-[#4a3b2a] hover:text-white transition-all duration-300 cursor-pointer">
                                 View Details
-                              </Link>
+                              </button>
                             </div>
                           </div>
                         </div>

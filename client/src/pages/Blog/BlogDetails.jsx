@@ -85,7 +85,7 @@ const BlogDetails = () => {
           </div>
 
           {/* AUTHOR SECTION (Optional) */}
-          <div className="mt-12 pt-8 border-t border-stone-100 flex items-center justify-between">
+          <div className="mt-12 pt-8 border-t border-stone-100 flex items-center justify-between ">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-[#4a3b2a] rounded-full flex items-center justify-center text-[#d4a017] font-bold text-xl">
                 F
@@ -94,15 +94,22 @@ const BlogDetails = () => {
                 <p className="text-xs text-stone-400 uppercase font-bold">
                   Written by
                 </p>
-                <p className="font-bold text-[#4a3b2a]">FitBite Team</p>
+                <p className=" font-bold text-[#4a3b2a]">FitBite Team</p>
               </div>
             </div>
 
             <Link
               to="/blog"
-              className="text-[#4a3b2a] font-bold hover:text-[#d4a017] transition flex items-center gap-2"
+              className="hidden md:block text-[#4a3b2a] font-bold hover:text-[#d4a017] transition flex items-center gap-2"
             >
               <i className="ri-arrow-left-line"></i> Back to Journal
+            </Link>
+
+            <Link
+              to="/blog"
+              className="md:hidden text-[#4a3b2a] font-bold bg-[#d4a017] transition px-3 py-2 rounded-full flex items-center gap-2"
+            >
+              <i className="ri-arrow-left-line"></i>
             </Link>
           </div>
         </div>

@@ -67,7 +67,6 @@ const AdminDashboard = () => {
     (p) => p.stock === 0 || p.countInStock === 0,
   ).length;
 
-
   const changeStatusHandler = async (id, newStatus) => {
     try {
       // Backend ko naya status bhejo
@@ -459,7 +458,13 @@ const AdminDashboard = () => {
                 : activeTab === "products"
                   ? "bg-[#4a3b2a] text-white"
                   : "bg-white text-stone-500"
-            }`}
+            }
+                  ${activeTab === "products" && outOfStockCount > 0
+                    ? "bg-red-600 text-white border-red-600"
+                    : ""
+            }
+                  
+            `}
           >
             Manage Products
           </button>

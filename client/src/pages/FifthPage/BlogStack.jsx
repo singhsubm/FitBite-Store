@@ -147,14 +147,14 @@ const BlogStack = () => {
                     </p>
 
                     {/* CLICK LOGIC: Added Link to navigate */}
-                    <Link to={`/blog`} className="group flex items-center justify-center gap-3 mx-auto cursor-pointer pointer-events-auto">
+                    <button  className="group flex items-center justify-center gap-3 mx-auto cursor-pointer pointer-events-auto">
                         <div className="w-12 h-12 rounded-full bg-[#d4a017] text-white flex items-center justify-center shadow-lg group-hover:bg-white group-hover:text-[#d4a017] transition-all duration-300">
                           <i className="ri-arrow-right-up-line text-xl"></i>
                         </div>
                         <span className={`text-xs md:text-sm font-bold tracking-widest uppercase ${blog.theme === 'dark' ? 'text-white' : 'text-black'}`}>
                           Read Story
                         </span>
-                    </Link>
+                    </button>
 
                   </Link>
                 </div>

@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { Link } from "react-router-dom";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -77,8 +79,10 @@ const ShopCategories = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-0 w-full px-4 md:px-10 max-w-[1600px] mx-auto">
         
         {categories.map((item) => (
-          <div 
+          <Link 
+            to={`/shop`} 
             key={item.id} 
+            state={{ category: item.name }}
             className={`category-card group relative flex flex-col items-center justify-end h-[40vh] md:h-[60vh] overflow-hidden cursor-none transition-transform duration-500  hover:scale-105 `}
             data-cursor="natural"
           >
@@ -109,7 +113,7 @@ const ShopCategories = () => {
               </p>
             </div>
 
-          </div>
+          </Link>
         ))}
 
       </div>

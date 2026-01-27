@@ -102,12 +102,14 @@ const CartSidebar = () => {
             <div className="h-full flex flex-col items-center justify-center text-center opacity-50">
               <i className="ri-shopping-cart-line text-6xl mb-4 text-stone-300"></i>
               <p>Your cart is empty.</p>
-              <button
+              <Link
+                to="/shop"
                 onClick={() => setIsCartOpen(false)}
+
                 className="mt-4 text-[#d4a017] font-bold underline"
               >
                 Start Shopping
-              </button>
+              </Link>
             </div>
           ) : (
             cartItems.map((item) => (
