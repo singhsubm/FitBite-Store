@@ -51,7 +51,7 @@ const ProductDetails = () => {
         });
       }
     },
-    { scope: container, dependencies: [loading] }
+    { scope: container, dependencies: [loading] },
   );
 
   if (loading)
@@ -128,7 +128,7 @@ const ProductDetails = () => {
                     {Math.round(
                       ((product.originalPrice - product.price) /
                         product.originalPrice) *
-                        100
+                        100,
                     )}
                     %
                   </span>
@@ -146,6 +146,12 @@ const ProductDetails = () => {
               </div> */}
             </div>
             <div className="mb-6">
+              <p className="mb-2 font-normal text-red-500">
+                {(product.countInStock < 5 && product.countInStock > 0) ||
+                (product.stock < 5 && product.stock > 0)
+                  ? ` Hurry! Only ${product.countInStock || product.stock} left in stock.`
+                  : ""}
+              </p>
               <span
                 className="inline-block bg-stone-100 text-[#4a3b2a] 
                    px-4 py-2 rounded-full 
@@ -279,7 +285,7 @@ const ProductDetails = () => {
                                 {value}
                               </p>
                             </div>
-                          )
+                          ),
                       )}
                   </div>
                 )}

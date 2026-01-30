@@ -305,7 +305,7 @@ const Shop = () => {
                         </div>
 
                         {/* Details Area */}
-                        <div className="p-3 sm:p-4 md:p-6 relative ">
+                        <div className="p-3 sm:p-4 md:p-6 relative flex flex-col">
                           <div className="absolute -top-4 md:-top-7 left-1/2 -translate-x-1/2 w-full translate-y-0 transition-transform duration-500  flex justify-center items-center">
                             <div className="bg-white w-10 h-10 md:w-15 md:h-15 rounded-full flex justify-center items-center">
                               <button
@@ -348,9 +348,20 @@ const Shop = () => {
                               {item.weight || "500g"}
                               {"\u00A0"}|{"\u00A0"}
                               {item.category}
+                              <p>
+                                {(item.stock <= 5 && item.stock > 0) ||
+                                (item.countInStock <= 5 &&
+                                  item.countInStock > 0) ? (
+                                  <p className="text-red-500 text-xs mt-1">
+                                    Hurry! Only{" "}
+                                    {item.stock || item.countInStock} left in
+                                    stock.
+                                  </p>
+                                ) : null}
+                              </p>
                             </p>
 
-                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mt-auto">
+                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2 mt-auto">
                               {item.originalPrice > item.price ? (
                                 <div className="flex flex-col">
                                   <span className="text-xs text-stone-400 line-through decoration-red-400">
