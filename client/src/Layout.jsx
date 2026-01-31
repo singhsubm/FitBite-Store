@@ -5,6 +5,7 @@ import CartSidebar from "./components/CartSidebar";
 import CustomCursor from "./components/CustomCursor/CustomCursor";
 import ScrollToTop from "./components/ScrollToTop"
 import { Outlet } from "react-router-dom";
+import ChatBot from "./components/ChatBot";
 
 const MainLayout = () => {
   return (
@@ -14,6 +15,7 @@ const MainLayout = () => {
       <Navbar />
       <CartSidebar />
       <Outlet />
+      <ChatBot/>
       <Footer />
     </div>
   );
