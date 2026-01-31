@@ -301,17 +301,6 @@ const ChatBot = () => {
 
   return (
     <div className="fixed bottom-6 right-6 z-[999] flex flex-col items-end font-sans">
-      {!isOpen && hasUnread && (
-        <div
-          className="bg-white p-4 rounded-xl shadow-xl border border-[#d4a017]/20 mb-3 animate-bounce cursor-pointer"
-          onClick={toggleChat}
-        >
-          <p className="text-sm font-bold text-[#4a3b2a]">
-            Hey! Need a healthy recommendation? 🥗
-          </p>
-          <div className="absolute -bottom-1 right-6 w-3 h-3 bg-white rotate-45 border-b border-r border-[#d4a017]/20"></div>
-        </div>
-      )}
 
       {isOpen && (
         <div
