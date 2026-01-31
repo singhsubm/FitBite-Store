@@ -154,7 +154,7 @@ const Shop = () => {
         <div className="flex flex-col md:flex-row gap-10 max-w-[1600px] mx-auto">
           {/* === SIDEBAR (FILTERS) === */}
           {/* Mobile: Full width, Desktop: Sticky 1/4 width */}
-          <aside className="shop-sidebar w-full md:w-1/4 h-fit md:sticky md:top-32 z-10">
+          <aside className="shop-sidebar w-full md:w-1/4 h-fit md:sticky md:top-26 z-10">
             {/* 📱 MOBILE COMPACT FILTER BAR */}
             <div className="md:hidden bg-white p-4 rounded-2xl shadow-sm mb-6 border border-[#4a3b2a]/5 space-y-3">
               {/* Search */}
