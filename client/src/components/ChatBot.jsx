@@ -374,7 +374,10 @@ const ChatBot = () => {
                     <>
                   <div
                     className="bg-white p-3 rounded-2xl rounded-bl-none shadow-md border border-stone-200 w-52 group transition-all hover:shadow-xl cursor-pointer"
-                    onClick={() => navigate(`/shop/product/${msg.product.id}`)}
+                    onClick={() => {
+                        setIsOpen(false);
+                        navigate(`/shop/product/${msg.product.id}`);
+                    }}
                   >
                     <div className="h-32 w-full rounded-xl overflow-hidden mb-2 relative">
                       <img
@@ -401,7 +404,10 @@ const ChatBot = () => {
                       </span>
                     </div>
                   </div>
-                  <div className="bg-[#4a3b2a] mt-2 text-white text-center py-1 rounded-2xl shadow-md border border-stone-200 w-52 group transition-all hover:shadow-xl cursor-pointer" onClick={()=> (navigate("/shop"))}>
+                  <div className="bg-[#4a3b2a] mt-2 text-white text-center py-1 rounded-2xl shadow-md border border-stone-200 w-52 group transition-all hover:shadow-xl cursor-pointer" onClick={()=> {
+                    setIsOpen(false);
+                    navigate("/shop");
+                    }}>
                         Go to Shop <i className="ri-arrow-right-line ml-1"></i>
                     </div>
                     </>
