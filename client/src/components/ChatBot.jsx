@@ -304,7 +304,7 @@ const ChatBot = () => {
 
       {isOpen && (
         <div
-          className={`bg-white/95 backdrop-blur-md w-[350px] h-[550px] rounded-2xl shadow-2xl border border-white/20 flex flex-col mb-4 overflow hiddentransition-all duration-500 ease-in-out${isClosing ? "opacity-0 scale-90 translate-y-10" : "opacity-100 scale-100 translate-y-0"}`}
+          className={` bg-white/95 backdrop-blur-md w-[350px] h-[550px] rounded-2xl shadow-2xl border border-white/20 flex flex-col mb-4 overflow hiddentransition-all duration-500 ease-in-out${isClosing ? "opacity-0 scale-90 translate-y-10" : "opacity-100 scale-100 translate-y-0"}`}
         >
           <div className="bg-gradient-to-r from-[#4a3b2a] to-[#2a2118] p-4 flex justify-between items-center text-white shadow-lg">
             <div className="flex items-center gap-3">
@@ -338,7 +338,7 @@ const ChatBot = () => {
             </div>
           </div>
 
-          <div className="flex-1 p-4 overflow-y-auto bg-[#f4f2ed] space-y-4 custom-scrollbar">
+          <div className="flex-1 p-4 overflow-y-auto bg-[#f4f2ed] space-y-4 custom-scrollbar overscroll-contain">
             <p className="text-center text-[10px] text-stone-400 font-bold uppercase tracking-widest my-2 opacity-50">
               Today
             </p>
