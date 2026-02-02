@@ -59,7 +59,7 @@ const ContactSection = () => {
                         {/* 2. WhatsApp Link */}
                         {/* Note: Apna number yahan '919999999999' ki jagah daal dena */}
                         <a 
-                            href="https://wa.me/917379712466" 
+                            href="https://wa.me/917379712466?text=Hi,%20I%20would%20like%20to%20inquire%20about%20FitBite." 
                             target="_blank" 
                             rel="noreferrer"
                             className="flex items-center gap-2 text-[#4a3b2a] font-bold hover:text-[#25D366] transition-colors"
