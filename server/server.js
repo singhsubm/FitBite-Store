@@ -1,6 +1,9 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+const morgan = require("morgan");
 const connectDB = require('./config/db');
 const ownerRoutes = require('./routes/ownerRoutes');
 const productRoutes = require('./routes/productRoutes');
@@ -16,7 +19,9 @@ dotenv.config();
 connectDB(); 
 
 const app = express();
-app.use(express.json());
+app.use(helmet()); // security headers
+app.use(express.json({ limit: "10kb" })); // body size limit
+// app.use(morgan("dev")); // request logs
 
 const allowedOrigins = [
   "https://fitbite-store.vercel.app",
@@ -44,6 +49,14 @@ app.use(cors({
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 min
+  max: 100, // 100 requests per IP
+  message: "Too many requests from this IP, try again later"
+});
+
+app.use("/api", limiter);
 
 app.use('/api/owner', ownerRoutes);
 app.use('/api/products', productRoutes);
