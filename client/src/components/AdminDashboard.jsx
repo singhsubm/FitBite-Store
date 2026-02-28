@@ -267,8 +267,8 @@ const AdminDashboard = () => {
     window.scrollTo(0, 0);
   };
 
-  const markDelivered = async (id) => {
-    if (window.confirm("Are you sure this order is delivered?")) {
+  const markDelivered = (id) => {
+    showConfirm("Are you sure this order is delivered?", async () => {
       try {
         // 1. Backend API call (PUT request)
         // Header apne aap jayega (API config se)
@@ -277,10 +277,22 @@ const AdminDashboard = () => {
         // 2. Refresh List (Taaki status turant change ho jaye)
         fetchOrders();
       } catch (error) {
-        alert("Error updating order");
+        showToast("Error updating order");
         console.error(error);
       }
-    }
+    });
+  };
+
+  const deleteOrderHandler = async (id) => {
+    showConfirm("Are you sure you want to delete this order?", async () => {
+      try {
+        await API.delete(`/orders/${id}`);
+        showToast("Order Deleted Successfully", "success");
+        fetchOrders();
+      } catch (error) {
+        showToast("Error deleting order", "error");
+      }
+    });
   };
 
   const uploadFileHandler = async (e) => {
@@ -459,10 +471,11 @@ const AdminDashboard = () => {
                   ? "bg-[#4a3b2a] text-white"
                   : "bg-white text-stone-500"
             }
-                  ${activeTab === "products" && outOfStockCount > 0
-                    ? "bg-red-600 text-white border-red-600"
-                    : ""
-            }
+                  ${
+                    activeTab === "products" && outOfStockCount > 0
+                      ? "bg-red-600 text-white border-red-600"
+                      : ""
+                  }
                   
             `}
           >
@@ -572,14 +585,20 @@ const AdminDashboard = () => {
                             {order.orderItems.length} Items
                           </button>
                         </td>
-                        <td className="p-4 text-sm text-stone-500">
+                        <td className="p-4 text-nowrap text-sm text-stone-500">
                           {order.createdAt.substring(0, 10)}
                         </td>
                         <td className="p-4 text-sm text-stone-500">
                           {order.shippingAddress.email}
                         </td>
-                        <td className="p-4 text-sm text-stone-500">
-                          {order.shippingAddress.phone}
+                        <td className="p-4 text-sm text-nowrap text-stone-500">
+                          {/* {order.shippingAddress.phone} */}
+                          {
+                            //agar phone number me +91 nhi hai to use laga do
+                            order.shippingAddress.phone.startsWith("+91")
+                              ? order.shippingAddress.phone
+                              : "+91" + order.shippingAddress.phone
+                          }
                         </td>
                         <td className="p-4 font-bold">₹{order.totalPrice}</td>
                         <td className="p-4">
@@ -630,11 +649,25 @@ const AdminDashboard = () => {
                           {!order.isDelivered && (
                             <button
                               onClick={() => markDelivered(order._id)}
-                              className="text-xs font-bold text-[#d4a017] hover:underline"
+                              className="text-xs font-bold text-[#d4a017] hover:underline text-nowrap"
                             >
                               Mark Done
                             </button>
                           )}
+                        </td>
+                        {/* {delete button add karna hai to yahan add kar dena, lekin sochna padega ki delete karne se pehle confirmation kaise loge, kyunki order delete karna thoda risky hota hai.} */}
+                        <td className="p-4">
+                          {
+                            /* {delivered status pe na dikhe} */
+                            !order.isDelivered && (
+                              <button
+                                onClick={() => deleteOrderHandler(order._id)}
+                                className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-full transition-colors"
+                              >
+                                <i className="ri-delete-bin-line text-lg"></i>
+                              </button>
+                            )
+                          }
                         </td>
                       </tr>
                     ))}

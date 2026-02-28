@@ -69,7 +69,7 @@ const addOrderItems = async (req, res) => {
 // @access  Private/Admin
 
 const getOrders = async (req, res) => {
-  const orders = await Order.find({})
+  const orders = await Order.find({ isDeleted: { $ne: true } })
     .populate("user", "id name")
     .sort({ createdAt: -1 });
   res.json(orders);
@@ -98,9 +98,48 @@ const updateOrderToDelivered = async (req, res) => {
   }
 };
 
+// @desc    Delete order
+// @route   DELETE /api/orders/:id
+// @access  Private/Admin
+// @desc    Delete / Cancel order (Soft delete + Stock restore)
+// @route   DELETE /api/orders/:id
+// @access  Private/Admin
+const deleteOrder = async (req, res) => {
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+
+  // ❌ Agar already deleted hai to dobara stock mat badhao
+  if (order.isDeleted) {
+    return res.status(400).json({ message: "Order already deleted" });
+  }
+
+  // 🔁 1️⃣ STOCK WAPAS ADD KARO
+  for (const item of order.orderItems) {
+    const product = await Product.findById(item.product);
+
+    if (product) {
+      product.stock += item.qty;
+      await product.save();
+    }
+  }
+
+  // 🔴 2️⃣ ORDER STATUS CANCEL KARO
+  order.orderStatus = "Cancelled";
+  order.isDeleted = true;
+
+  await order.save();
+
+  res.json({ message: "Order cancelled and stock restored" });
+};
+
 module.exports = {
   addOrderItems,
   getMyOrders,
   getOrders,
   updateOrderToDelivered,
+  deleteOrder,
 };

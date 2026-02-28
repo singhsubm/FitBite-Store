@@ -50,6 +50,7 @@ const orderSchema = new mongoose.Schema({
   isPaid: { type: Boolean, required: true, default: false },
   paidAt: { type: Date },
   isDelivered: { type: Boolean, required: true, default: false },
+  isDeleted: { type: Boolean, default: false }, // Soft delete ke liye flag
   deliveredAt: { type: Date },
 }, { timestamps: true });
 
