@@ -20,9 +20,27 @@ import FAQ from "./pages/Info/FAQ.jsx";
 import Privacy from "./pages/Info/Privacy.jsx";
 import Terms from "./pages/Info/Terms.jsx";
 
+// preloader
+import Preloader from "./pages/Preloader/Preloader.jsx";
+import { useState } from "react";
+
 
 function App() {
+  const [showPreloader, setShowPreloader] = useState(true);
+
+  const imagesToLoad = [
+    "https://www.pexels.com/download/video/6206250/"
+  ];
   return (
+    <>
+    {showPreloader && (
+        <Preloader
+          onComplete={() => setShowPreloader(false)}
+          imageUrls={imagesToLoad}
+        />
+      )}
+      <div className={showPreloader ? "invisible" : "visible"}>
+
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
@@ -48,6 +66,8 @@ function App() {
         </Route>
       </Route>
     </Routes>
+    </div>
+    </>
   );
 }
 
