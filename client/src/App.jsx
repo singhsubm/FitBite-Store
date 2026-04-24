@@ -45,8 +45,7 @@ function App() {
           imageUrls={imagesToLoad}
         />
       )}
-      <div className={showPreloader ? "invisible" : "visible"}>
-
+{!showPreloader && (
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
@@ -72,7 +71,7 @@ function App() {
         </Route>
       </Route>
     </Routes>
-    </div>
+    )}
     </>
   );
 }
