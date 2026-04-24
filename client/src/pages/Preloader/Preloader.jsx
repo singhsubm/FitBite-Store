@@ -6,31 +6,65 @@ const Preloader = ({ onComplete, imageUrls = [] }) => {
   const barRef = useRef(null);
   const containerRef = useRef(null);
   const [count, setCount] = useState(0);
+  const smoothProgress = useRef({ val: 0 }); // GSAP smooth tracking
+  const realProgress = useRef(0); // actual loaded %
 
   const text = ["F", "I", "T", " ", "B", "I", "T", "E", "."];
   const co = ["C", "O"];
 
-  useEffect(() => {
-    // 🔒 SCROLL LOCK (HARD LOCK)
-    const scrollY = window.scrollY;
+  // Smooth progress updater - real value tak smoothly jaata hai
+  const updateSmoothProgress = (targetVal, onDone) => {
+    gsap.killTweensOf(smoothProgress.current);
+    gsap.to(smoothProgress.current, {
+      val: targetVal,
+      duration : targetVal === 10 ? 1.2 : 0.4,
+      ease: "power2.out",
+      onUpdate: () => {
+        const v = Math.round(smoothProgress.current.val);
+        setCount(v);
+        if (barRef.current) {
+          barRef.current.style.width = `${smoothProgress.current.val}%`;
+        }
+      },
+      onComplete: onDone || null,
+    });
+  };
 
+  const finishAndExit = () => {
+    // 100% pe smoothly aao, phir fade out
+    updateSmoothProgress(100, () => {
+      gsap.to(containerRef.current, {
+        opacity: 0,
+        duration: 0.6,
+        delay: 0.3,
+        ease: "power2.out",
+        onComplete: () => {
+          document.documentElement.style.overflow = "";
+          document.body.style.overflow = "auto";
+          document.body.style.position = "";
+          document.body.style.top = "";
+          document.body.style.width = "";
+          onComplete();
+        },
+      });
+    });
+  };
+
+  useEffect(() => {
+    // Scroll lock
+    const scrollY = window.scrollY;
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
     document.body.style.position = "fixed";
     document.body.style.top = `-${scrollY}px`;
     document.body.style.width = "100%";
 
-    const preventScroll = (e) => {
-      e.preventDefault();
-    };
-
+    const preventScroll = (e) => e.preventDefault();
     window.addEventListener("wheel", preventScroll, { passive: false });
     window.addEventListener("touchmove", preventScroll, { passive: false });
-    window.addEventListener("keydown", preventScroll, { passive: false });
 
-    // ✨ Text animation (start me ek baar)
+    // Letter animation
     gsap.set(lettersRef.current, { y: -120, opacity: 0 });
-
     gsap.to(lettersRef.current, {
       y: 0,
       opacity: 1,
@@ -39,75 +73,43 @@ const Preloader = ({ onComplete, imageUrls = [] }) => {
       stagger: 0.07,
     });
 
-    const startAnimation = () => {
-      let progress = { val: 0 };
-
-      gsap.to(progress, {
-        val: 100,
-        duration: 2.5,
-        ease: "power2.inOut",
-        onUpdate: () => {
-          setCount(Math.round(progress.val));
-          if (barRef.current) {
-            barRef.current.style.width = `${progress.val}%`;
-          }
-        },
-        onComplete: () => {
-          gsap.to(containerRef.current, {
-            opacity: 0,
-            duration: 0.6,
-            delay: 0.3,
-            ease: "power2.out",
-            onComplete: () => {
-              // 🔓 RESTORE SCROLL
-              const storedScroll = document.body.style.top;
-
-              document.documentElement.style.overflow = "";
-              document.body.style.overflow = "auto";
-              document.body.style.position = "";
-              document.body.style.top = "";
-              document.body.style.width = "";
-
-              window.removeEventListener("wheel", preventScroll);
-              window.removeEventListener("touchmove", preventScroll);
-              window.removeEventListener("keydown", preventScroll);
-
-              window.scrollTo(0, parseInt(storedScroll || "0") * -1);
-
-              onComplete();
-            },
-          });
-        },
-      });
-    };
-
     if (imageUrls.length === 0) {
-      startAnimation();
-    } else {
-      let loadedCount = 0;
-
-      imageUrls.forEach((url) => {
-        const img = new Image();
-        img.src = url;
-
-        img.onload = img.onerror = () => {
-          loadedCount++;
-          if (loadedCount === imageUrls.length) startAnimation();
-        };
-      });
+      // Koi image nahi - sirf animated fill karo
+      updateSmoothProgress(100, () => finishAndExit());
+      return;
     }
 
-    // 🧹 CLEANUP
+    let loadedCount = 0;
+    const total = imageUrls.length;
+
+    // Minimum visual progress guarantee (0 se 10% immediately)
+    updateSmoothProgress(10);
+
+    imageUrls.forEach((url) => {
+      const img = new Image();
+      img.src = url;
+
+      img.onload = img.onerror = () => {
+        loadedCount++;
+        // Real progress calculate karo (10% already diya, baki 90% images ke liye)
+        realProgress.current = 10 + Math.round((loadedCount / total) * 90);
+        
+        if (loadedCount === total) {
+          finishAndExit();
+        } else {
+          updateSmoothProgress(realProgress.current);
+        }
+      };
+    });
+
     return () => {
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "auto";
       document.body.style.position = "";
       document.body.style.top = "";
       document.body.style.width = "";
-
       window.removeEventListener("wheel", preventScroll);
       window.removeEventListener("touchmove", preventScroll);
-      window.removeEventListener("keydown", preventScroll);
     };
   }, []);
 
@@ -150,7 +152,7 @@ const Preloader = ({ onComplete, imageUrls = [] }) => {
         <div className="w-full h-[2px] bg-[#4a3b2a]/10 rounded-full overflow-hidden">
           <div
             ref={barRef}
-            className="h-full bg-[#d4a017] rounded-full transition-all"
+            className="h-full bg-[#d4a017] rounded-full"
             style={{ width: "0%" }}
           />
         </div>

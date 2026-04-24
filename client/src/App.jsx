@@ -29,7 +29,13 @@ function App() {
   const [showPreloader, setShowPreloader] = useState(true);
 
   const imagesToLoad = [
-    "https://www.pexels.com/download/video/6206250/"
+    "https://www.pexels.com/download/video/6206250/",
+    "/images/one.png",
+    "/images/four.png",
+    "/images/six.png",
+    "/images/three.png",
+    "/images/five.png",
+    "/images/two.png",
   ];
   return (
     <>
